@@ -2,9 +2,9 @@ let apiKey;
 
 // Get api key from JSON file
 async function initializeApp() {
-    const response = await fetch('config.json');
-    const config = await response.json();
-    apiKey = config.apiKey;
+    // const response = await fetch('config.json');
+    // const config = await response.json();
+    // apiKey = config.apiKey;
 
     navigator.geolocation.getCurrentPosition(displayMap, error => {
         alert("Could not obtain geolocation: " + error.message);
@@ -32,12 +32,12 @@ function displayMap(position) {
 
     let control = L.Routing.control({
         waypoints: [L.latLng(userLatitude, userLongitude)],
-        routeWhileDragging: true,
-        router: L.Routing.graphHopper(apiKey, {
-            urlParameters: {
-                vehicle: 'foot'
-            }
-        }),
+        routeWhileDragging: true
+        // router: L.Routing.graphHopper(apiKey, {
+        //     urlParameters: {
+        //         vehicle: 'foot'
+        //     }
+        // }),
 
     }).addTo(map);
 
