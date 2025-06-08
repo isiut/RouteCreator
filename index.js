@@ -6,7 +6,7 @@ L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
     '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
 }).addTo(map);
 
-L.Routing.control({
+let control = L.Routing.control({
   waypoints: [
     L.latLng(51.505, -0.09),
     L.latLng(51.51, -0.1),
@@ -15,3 +15,28 @@ L.Routing.control({
     L.latLng(51.505, -0.09),
   ],
 }).addTo(map);
+
+function createButton(label, container) {
+  var btn = L.DomUtil.create("button", "", container);
+  btn.setAttribute("type", "button");
+  btn.innerHTML = label;
+  return btn;
+}
+
+map.on("click", function (e) {
+  var container = L.DomUtil.create("div"),
+    startBtn = createButton("Start from this location", container),
+    destBtn = createButton("Go to this location", container);
+
+  L.popup().setContent(container).setLatLng(e.latlng).openOn(map);
+
+  L.DomEvent.on(startBtn, "click", function () {
+    control.spliceWaypoints(0, 1, e.latlng);
+    map.closePopup();
+  });
+
+  L.DomEvent.on(destBtn, "click", function () {
+    control.spliceWaypoints(control.getWaypoints().length - 1, 1, e.latlng);
+    map.closePopup();
+  });
+});
