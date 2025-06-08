@@ -1,4 +1,4 @@
-var map = L.map("map").setView([51.505, -0.09], 13);
+let map = L.map("map").setView([51.505, -0.09], 13);
 
 L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
   maxZoom: 19,
@@ -17,14 +17,14 @@ let control = L.Routing.control({
 }).addTo(map);
 
 function createButton(label, container) {
-  var btn = L.DomUtil.create("button", "", container);
+  let btn = L.DomUtil.create("button", "", container);
   btn.setAttribute("type", "button");
   btn.innerHTML = label;
   return btn;
 }
 
 map.on("click", function (e) {
-  var container = L.DomUtil.create("div"),
+  let container = L.DomUtil.create("div"),
     startBtn = createButton("Start from this location", container),
     destBtn = createButton("Go to this location", container);
 
