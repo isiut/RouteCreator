@@ -11,4 +11,4 @@
 
 ---
 
-![img.png](img.png)
+![img.png](assets/img.png)
