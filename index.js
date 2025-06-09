@@ -14,6 +14,7 @@ async function initializeApp() {
 }
 
 let userLatitude, userLongitude;
+let control;
 
 function displayMap(position) {
     userLatitude = position.coords.latitude;
@@ -30,7 +31,7 @@ function displayMap(position) {
             '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
     }).addTo(map);
 
-    let control = L.Routing.control({
+    control = L.Routing.control({
         waypoints: [L.latLng(userLatitude, userLongitude)],
         routeWhileDragging: true,
         waypointMode: "snap",
@@ -76,11 +77,16 @@ function displayMap(position) {
     });
 }
 
+function undo() {
+    control.spliceWaypoints(control.getWaypoints().length - 1, 1);
+}
+
 function createButton(label, container) {
     let btn = L.DomUtil.create("button", "", container);
     btn.setAttribute("type", "button");
     btn.innerHTML = label;
     return btn;
 }
+
 
 initializeApp();
