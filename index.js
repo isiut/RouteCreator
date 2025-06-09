@@ -32,7 +32,9 @@ function displayMap(position) {
 
     let control = L.Routing.control({
         waypoints: [L.latLng(userLatitude, userLongitude)],
-        routeWhileDragging: true
+        routeWhileDragging: true,
+        waypointMode: "snap",
+        showAlternatives: true,
         // router: L.Routing.graphHopper(apiKey, {
         //     urlParameters: {
         //         vehicle: 'foot'
@@ -41,12 +43,12 @@ function displayMap(position) {
 
     }).addTo(map);
 
-    function createButton(label, container) {
-        let btn = L.DomUtil.create("button", "", container);
-        btn.setAttribute("type", "button");
-        btn.innerHTML = label;
-        return btn;
-    }
+    control.on("routesfound", function (e) {
+        const meterDistance = (e.routes)[0].summary.totalDistance;
+        const kilometerDistance = meterDistance / 1000;
+        const milesDistance = kilometerDistance * 0.621371;
+        console.log(milesDistance.toFixed(2) + " mi (" + kilometerDistance.toFixed(2) + " km)");
+    });
 
     map.on("contextmenu", function (e) {
         let container = L.DomUtil.create("div"),
@@ -72,6 +74,13 @@ function displayMap(position) {
         control.spliceWaypoints(control.getWaypoints().length - 1, 0, e.latlng);
         control.spliceWaypoints(control.getWaypoints().length - 1, 1, e.latlng);
     });
+}
+
+function createButton(label, container) {
+    let btn = L.DomUtil.create("button", "", container);
+    btn.setAttribute("type", "button");
+    btn.innerHTML = label;
+    return btn;
 }
 
 initializeApp();
